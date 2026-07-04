@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RocketCrash Game</title>
+    <title>RocketCrash Pro</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
@@ -15,25 +15,25 @@
         }
 
         body {
-            background-color: #0b0e14;
+            background-color: #06090f;
             color: #ffffff;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             overflow: hidden;
             height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* ESCENARIO DEL JUEGO (ESPACIO) */
+        /* ESCENARIO PREMIUM CON DEGRADADO PROFUNDO */
         .game-canvas {
             position: relative;
             flex-grow: 1;
-            background: radial-gradient(circle at center, #1a1f2c 0%, #0b0e14 100%);
+            background: radial-gradient(circle at 50% 40%, #111726 0%, #06090f 100%);
             overflow: hidden;
-            border-bottom: 2px solid #1f2633;
+            border-bottom: 1px solid #172237;
         }
 
-        /* Cuadrícula de fondo estilo arcade neón */
+        /* Cuadrícula neón con perspectiva de movimiento real en 3D */
         .grid {
             position: absolute;
             width: 200%;
@@ -41,143 +41,178 @@
             top: -50%;
             left: -50%;
             background-image: 
-                linear-gradient(rgba(31, 38, 51, 0.3) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(31, 38, 51, 0.3) 1px, transparent 1px);
-            background-size: 40px 40px;
-            transform: perspective(500px) rotateX(60deg);
-            animation: moveGrid 4s linear infinite;
+                linear-gradient(rgba(0, 194, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 194, 255, 0.08) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(600px) rotateX(45deg);
+            animation: moveGrid 3s linear infinite;
             animation-play-state: paused;
         }
 
         @keyframes moveGrid {
-            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
-            100% { transform: perspective(500px) rotateX(60deg) translateY(40px); }
+            0% { transform: perspective(600px) rotateX(45deg) translateY(0); }
+            100% { transform: perspective(600px) rotateX(45deg) translateY(50px); }
         }
 
-        /* CONTADOR GIGANTE NEÓN */
+        /* PARTÍCULAS DE ESTRELLAS PARPADEANTES */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
+            background-size: 200px 200px, 150px 150px;
+            background-position: 0 0, 40px 60px;
+            opacity: 0.3;
+        }
+
+        /* CONTADOR GIGANTE DIGITAL */
         .multiplier-container {
             position: absolute;
             top: 25%;
-            left: 50%;
+            left: 50 Img;
             transform: translate(-50%, -50%);
             text-align: center;
             z-index: 10;
+            width: 100%;
         }
 
         .multiplier {
-            font-size: 4rem;
-            font-weight: 800;
+            font-size: 4.8rem;
+            font-weight: 900;
             color: #ff9f43;
-            text-shadow: 0 0 20px rgba(255, 159, 67, 0.6), 0 0 40px rgba(255, 159, 67, 0.3);
+            text-shadow: 0 0 25px rgba(255, 159, 67, 0.5), 0 0 50px rgba(255, 159, 67, 0.2);
             font-variant-numeric: tabular-nums;
-            transition: color 0.1s;
+            letter-spacing: -1px;
         }
 
         .multiplier.crash {
             color: #ff4757;
-            text-shadow: 0 0 20px rgba(255, 71, 87, 0.6);
+            text-shadow: 0 0 25px rgba(255, 71, 87, 0.6);
+            animation: shake 0.3s ease-in-out;
         }
 
-        /* EL COHETE Y SU ANIMACIÓN */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        .status-text {
+            font-size: 0.85rem;
+            color: #4b6584;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+
+        /* CONTENEDOR DEL COHETE ESTILIZADO */
         .rocket-container {
             position: absolute;
             bottom: 15%;
             left: 15%;
-            width: 70px;
-            height: 70px;
+            width: 75px;
+            height: 75px;
             transform: translate(-50%, 50%) rotate(45deg);
             display: none;
             z-index: 5;
+            transition: left 0.05s linear, bottom 0.05s linear;
         }
 
         .rocket {
             width: 100%;
             height: 100%;
-            font-size: 50px;
+            font-size: 52px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            filter: drop-shadow(0 0 15px rgba(255, 159, 67, 0.4));
         }
 
-        /* Fuego del propulsor */
+        /* Propulsor de partículas de fuego */
         .rocket::after {
-            content: '🔥';
+            content: '';
             position: absolute;
-            font-size: 25px;
-            bottom: -15px;
-            left: calc(50% - 12px);
-            transform: rotate(135deg);
-            animation: flame 0.1s linear infinite alternate;
+            width: 12px;
+            height: 35px;
+            background: linear-gradient(to top, transparent, #ff4757, #ff9f43, #ffffff);
+            border-radius: 50%;
+            bottom: -30px;
+            left: calc(50% - 6px);
+            transform: rotate(180deg);
+            box-shadow: 0 0 20px #ff9f43;
+            animation: flameWobble 0.08s linear infinite alternate;
             display: none;
         }
 
-        @keyframes flame {
-            0% { transform: rotate(135deg) scale(0.9); opacity: 0.8; }
-            100% { transform: rotate(135deg) scale(1.2); opacity: 1; }
+        @keyframes flameWobble {
+            0% { transform: rotate(180deg) scaleX(0.8) translateY(0); }
+            100% { transform: rotate(180deg) scaleX(1.2) translateY(-3px); }
         }
 
-        /* SECCIÓN DE CONTROLES (BOTÓN INFERIOR) */
+        /* PANEL DE CONTROLES INFERIOR ESTILO CASINO */
         .controls-panel {
-            background-color: #131924;
-            padding: 20px;
+            background-color: #0d131f;
+            padding: 24px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
             align-items: center;
             justify-content: center;
+            border-top: 1px solid #1c273c;
         }
 
         .action-btn {
             width: 100%;
-            max-width: 320px;
-            height: 60px;
+            max-width: 340px;
+            height: 64px;
             border: none;
-            border-radius: 12px;
-            font-size: 1.2rem;
-            font-weight: 700;
+            border-radius: 16px;
+            font-size: 1.25rem;
+            font-weight: 800;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.2s ease;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            letter-spacing: 1.5px;
+            transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
         }
 
         .btn-start {
-            background: linear-gradient(135deg, #2ed573, #1dd1a1);
+            background: linear-gradient(135deg, #00cb82, #00734a);
             color: #fff;
+            border: 1px solid #00ffaa;
         }
+        .btn-start:active { transform: scale(0.97); }
 
         .btn-cashout {
-            background: linear-gradient(135deg, #ff9f43, #ff6b6b);
+            background: linear-gradient(135deg, #ff9f43, #ff4757);
             color: #fff;
-            box-shadow: 0 0 15px rgba(255, 159, 67, 0.4);
-            animation: pulseBtn 1s infinite alternate;
+            border: 1px solid #ffbe76;
+            box-shadow: 0 0 25px rgba(255, 159, 67, 0.4);
+            animation: pulseBtn 0.8s infinite alternate;
         }
 
         @keyframes pulseBtn {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.03); }
+            0% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 159, 67, 0.4); }
+            100% { transform: scale(1.02); box-shadow: 0 0 30px rgba(255, 71, 87, 0.6); }
         }
 
         .btn-disabled {
-            background: #2c3545 !important;
-            color: #576574 !important;
+            background: #1c2331 !important;
+            color: #4b5563 !important;
             cursor: not-allowed;
             box-shadow: none;
             animation: none;
-        }
-
-        .status-text {
-            font-size: 0.9rem;
-            color: #8492a6;
-            font-weight: 500;
+            border: none;
         }
     </style>
 </head>
 <body>
 
     <div class="game-canvas">
+        <div class="stars"></div>
         <div class="grid" id="grid"></div>
         
         <div class="multiplier-container">
@@ -195,11 +230,9 @@
     </div>
 
     <script>
-        // Inicializamos la Mini App de Telegram
         const tg = window.Telegram.WebApp;
-        tg.expand(); // Expande la app a pantalla completa en el celular
+        tg.expand();
 
-        // Elementos de la interfaz gráfica
         const mainBtn = document.getElementById('main_btn');
         const multiplierDisplay = document.getElementById('multiplier_display');
         const gameStatus = document.getElementById('game_status');
@@ -209,26 +242,24 @@
         let juegoLoop;
         let multiplicador = 1.00;
         let puntoCrashOculto = 1.00;
-        let estadoJuego = "menu"; // menu, volando, crash, retirado
+        let estadoJuego = "menu";
 
-        // Función que hace subir el cohete de verdad por la pantalla
         function actualizarGraficosDespegue() {
             if (estadoJuego !== "volando") return;
 
-            multiplicador += 0.04; // Sube fluido cada milisegundo
+            // Incremento fluido para suavizar la animación
+            multiplicador += 0.03;
             multiplicador = parseFloat(multiplicador.toFixed(2));
             multiplierDisplay.innerText = multiplicador.toFixed(2) + "x";
 
-            // Animación del cohete moviéndose en diagonal en la pantalla
-            let progreso = (multiplicador - 1) * 15; 
+            // Cálculo parabólico suave para el vuelo en diagonal
+            let progreso = (multiplicador - 1) * 18; 
             let posX = 15 + progreso;
-            let posY = 15 + (progreso * 1.2);
+            let posY = 15 + (Math.pow(progreso, 1.1));
 
-            // Evitamos que el cohete se salga de los bordes del celular
             if (posX < 75) rocketContainer.style.left = posX + "%";
-            if (posY < 75) rocketContainer.style.bottom = posY + "%";
+            if (posY < 70) rocketContainer.style.bottom = posY + "%";
 
-            // SI ALCANZA EL CRASH MATEMÁTICO: EXPLOTA
             if (multiplicador >= puntoCrashOculto) {
                 hacerCrash();
             }
@@ -238,26 +269,22 @@
             estadoJuego = "volando";
             multiplicador = 1.00;
             
-            // Generamos el punto de quiebre (luego se conectará con tu backend)
-            puntoCrashOculto = parseFloat((Math.random() * (4.5 - 1.1) + 1.1).toFixed(2));
+            // Margen aleatorio de quiebre
+            puntoCrashOculto = parseFloat((Math.random() * (4.2 - 1.1) + 1.1).toFixed(2));
 
-            // Configuración visual activa
-            gameStatus.innerText = "¡EL COHETE VA EN ÓRBITA!";
+            gameStatus.innerText = "¡EN ORBITA!";
             multiplierDisplay.classList.remove('crash');
             
-            // Aparece el cohete y se mueve la cuadrícula neón
             rocketContainer.style.display = "block";
             rocketContainer.style.left = "15%";
             rocketContainer.style.bottom = "15%";
             document.styleSheets[0].addRule('.rocket::after', 'display: block !important');
             grid.style.animationPlayState = "running";
 
-            // Cambiamos el botón al modo CASHOUT adictivo
             mainBtn.innerText = "CASHOUT";
             mainBtn.className = "action-btn btn-cashout";
 
-            // Arrancamos el reloj de actualización ultrarrápido (cada 50ms)
-            juegoLoop = setInterval(actualizarGraficosDespegue, 50);
+            juegoLoop = setInterval(actualizarGraficosDespegue, 45); // Más rápido y fluido
         }
 
         function hacerCashout() {
@@ -270,14 +297,9 @@
             mainBtn.innerText = "GANASTE +$" + multiplicador + " USDT";
             mainBtn.className = "action-btn btn-disabled";
 
-            // Mandamos los datos de la ganancia directo al chat de Telegram del usuario
             setTimeout(() => {
-                tg.sendData(JSON.stringify({
-                    accion: "cashout",
-                    multiplicador: multiplicador
-                }));
-                resetearAlMenu();
-            }, 1800);
+                tg.close();
+            }, 1400);
         }
 
         function hacerCrash() {
@@ -285,36 +307,19 @@
             estadoJuego = "crash";
             grid.style.animationPlayState = "paused";
             
-            // El cohete cambia a emoji de explosión
             document.getElementById('rocket_element').innerText = "💥";
             document.styleSheets[0].addRule('.rocket::after', 'display: none !important');
             multiplierDisplay.classList.add('crash');
 
-            gameStatus.innerText = "💥 ¡C R A S H!";
-            mainBtn.innerText = "PERDISTE LA APUESTA";
+            gameStatus.innerText = "💥 CRASH";
+            mainBtn.innerText = "PERDISTE";
             mainBtn.className = "action-btn btn-disabled";
 
             setTimeout(() => {
-                tg.sendData(JSON.stringify({
-                    accion: "crash",
-                    multiplicador: puntoCrashOculto
-                }));
-                resetearAlMenu();
-            }, 2000);
+                tg.close();
+            }, 1600);
         }
 
-        function resetearAlMenu() {
-            estadoJuego = "menu";
-            document.getElementById('rocket_element').innerText = "🚀";
-            rocketContainer.style.display = "none";
-            multiplierDisplay.innerText = "1.00x";
-            multiplierDisplay.classList.remove('crash');
-            gameStatus.innerText = "PREPARADO PARA EL DESPEGUE";
-            mainBtn.innerText = "DESPEGAR ($1 USDT)";
-            mainBtn.className = "action-btn btn-start";
-        }
-
-        // Manejador del toque del dedo en el botón único
         mainBtn.addEventListener('click', () => {
             if (estadoJuego === "menu") {
                 iniciarRondaGrafica();

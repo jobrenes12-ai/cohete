@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>RocketCrash Premium</title>
+    <title>RocketCrash 3D Pro</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
@@ -26,17 +26,17 @@
             padding-bottom: env(safe-area-inset-bottom);
         }
 
-        /* ESCENARIO ADAPTABLE COMPLETO */
+        /* ESCENARIO ADAPTABLE CON PROFUNDIDAD */
         .game-canvas {
             position: relative;
             flex-grow: 1;
-            background: radial-gradient(circle at 50% 40%, #0a1120 0%, #04060a 100%);
+            background: radial-gradient(circle at 50% 45%, #0e172a 0%, #04060a 100%);
             overflow: hidden;
-            border-bottom: 1px solid #121a2e;
+            border-bottom: 1px solid #16223f;
             width: 100%;
         }
 
-        /* Cuadrícula neón con perspectiva cibernética */
+        /* Cuadrícula neón con inclinación 3D fluida */
         .grid {
             position: absolute;
             width: 200%;
@@ -44,17 +44,17 @@
             top: -50%;
             left: -50%;
             background-image: 
-                linear-gradient(rgba(0, 194, 255, 0.06) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 194, 255, 0.06) 1px, transparent 1px);
-            background-size: 40px 40px;
-            transform: perspective(400px) rotateX(50deg);
-            animation: moveGrid 2.5s linear infinite;
+                linear-gradient(rgba(0, 194, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 194, 255, 0.08) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(300px) rotateX(60deg);
+            animation: moveGrid 2s linear infinite;
             animation-play-state: paused;
         }
 
         @keyframes moveGrid {
-            0% { transform: perspective(400px) rotateX(50deg) translateY(0); }
-            100% { transform: perspective(400px) rotateX(50deg) translateY(40px); }
+            0% { transform: perspective(300px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(300px) rotateX(60deg) translateY(50px); }
         }
 
         .stars {
@@ -64,12 +64,12 @@
             background-image: 
                 radial-gradient(white, rgba(255,255,255,.2) 1.5px, transparent 30px),
                 radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 20px);
-            background-size: 140px 140px, 100px 100px;
-            background-position: 0 0, 30px 40px;
+            background-size: 160px 160px, 110px 110px;
+            background-position: 0 0, 40px 50px;
             opacity: 0.25;
         }
 
-        /* CONTADOR GIGANTE ADAPTABLE */
+        /* CONTADOR GIGANTE NEÓN */
         .multiplier-container {
             position: absolute;
             top: 25%;
@@ -81,18 +81,18 @@
         }
 
         .multiplier {
-            font-size: 15vw;
-            max-size: 4.5rem;
+            font-size: 14vw;
+            max-size: 4.6rem;
             font-weight: 900;
             color: #ff9f43;
-            text-shadow: 0 0 20px rgba(255, 159, 67, 0.5), 0 0 40px rgba(255, 159, 67, 0.2);
+            text-shadow: 0 0 25px rgba(255, 159, 67, 0.6), 0 0 50px rgba(255, 159, 67, 0.3);
             font-variant-numeric: tabular-nums;
             letter-spacing: -1px;
         }
 
         .multiplier.crash {
             color: #ff4757;
-            text-shadow: 0 0 25px rgba(255, 71, 87, 0.7);
+            text-shadow: 0 0 25px rgba(255, 71, 87, 0.8);
         }
 
         .status-text {
@@ -105,113 +105,132 @@
         }
 
         /* ========================================================
-           DISEÑO DE LA NAVE ULTRA-PROFESIONAL EN CSS (VECTORES)
+           CONTENEDOR CON ROTACIÓN Y PERSPECTIVA REAL EN 3D 
            ======================================================== */
         .rocket-container {
             position: absolute;
             bottom: 15%;
             left: 15%;
-            width: 80px;
-            height: 80px;
-            transform: translate(-50%, 50%) rotate(-45deg); /* Inversión de ángulo para simular 3D diagonal */
+            width: 90px;
+            height: 90px;
+            /* Aquí está el truco: inclinamos la nave en Y y X para el efecto 3D */
+            transform: translate(-50%, 50%) rotate(-35deg) rotateY(-30deg) rotateX(20deg);
+            transform-style: preserve-3d;
             display: none;
             z-index: 5;
             transition: left 0.05s linear, bottom 0.05s linear;
         }
 
-        /* Cuerpo del Jet Supersónico */
         .jet-body {
             position: relative;
             width: 100%;
             height: 100%;
+            transform-style: preserve-3d;
         }
 
-        /* Fuselaje Central Metálico */
+        /* Fuselaje 3D con Sombras Cilíndricas Esféricas */
         .fuselage {
             position: absolute;
-            top: 10px;
-            left: 32px;
-            width: 16px;
-            height: 60px;
-            background: linear-gradient(90deg, #d2dae2, #718093, #485460);
-            border-radius: 50% 50% 20% 20%;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            top: 5px;
+            left: 35px;
+            width: 20px;
+            height: 65px;
+            /* Gradiente de triple capa para simular reflejo de metal curvado redondo */
+            background: linear-gradient(90deg, #ffffff 0%, #bdc3c7 25%, #7f8c8d 60%, #2c3e50 100%);
+            border-radius: 50% 50% 30% 30%;
+            box-shadow: 5px 8px 15px rgba(0,0,0,0.5);
         }
 
-        /* Cabina de Cristal Tintada */
+        /* Cabina en Relieve 3D */
         .cockpit {
             position: absolute;
-            top: 22px;
-            left: 36px;
-            width: 8px;
-            height: 18px;
-            background: linear-gradient(135deg, #00d2d3, #00a8ff);
-            border-radius: 50%;
-            box-shadow: 0 0 8px rgba(0, 210, 211, 0.8);
+            top: 18px;
+            left: 40px;
+            width: 10px;
+            height: 22px;
+            background: linear-gradient(135deg, #00ecc6 0%, #00a8ff 100%);
+            border-radius: 50% 50% 40% 40%;
+            box-shadow: 0 0 12px rgba(0, 236, 198, 0.9), inset -2px -2px 5px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.4);
         }
 
-        /* Alas Delta de Alta Velocidad */
+        /* Alas Delta Doble Capa con Perspectiva de Alerón */
         .wings {
             position: absolute;
-            top: 35px;
-            left: 5px;
-            width: 70px;
-            height: 18px;
-            background: linear-gradient(90deg, #ff4757, #ee5253, #ff4757);
-            border-radius: 6px 6px 2px 2px;
-            clip-path: polygon(50% 0%, 100% 100%, 0% 100%); /* Forma de triángulo agresivo */
+            top: 32px;
+            left: 0px;
+            width: 90px;
+            height: 22px;
+            background: linear-gradient(90deg, #ff2e44 0%, #ff4757 50%, #b31224 100%);
+            border-radius: 4px;
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            filter: drop-shadow(0 5px 4px rgba(0,0,0,0.4));
         }
 
-        /* Turbina del Motor Trasero */
+        /* Alerones de cola verticales (Efecto 3D de profundidad) */
+        .tail-fin {
+            position: absolute;
+            bottom: 5px;
+            left: 42px;
+            width: 6px;
+            height: 18px;
+            background: linear-gradient(90deg, #ffffff, #ff4757);
+            border-radius: 50% 50% 0 0;
+            transform: translateZ(15px); /* Eleva la aleta sobre el eje Z para despegarla del cuerpo */
+        }
+
         .thruster {
             position: absolute;
-            bottom: 6px;
-            left: 35px;
-            width: 10px;
+            bottom: 0px;
+            left: 39px;
+            width: 12px;
             height: 8px;
-            background: #2f3640;
+            background: #1e272e;
             border-radius: 2px;
         }
 
-        /* FUEGO DE PLASMA ADICTIVO DE LA TURBINA */
+        /* FUEGO DE PLASMA VOLUMÉTRICO HIPER-REALISTA */
         .plasma-flame {
             position: absolute;
-            bottom: -32px;
-            left: 33px;
-            width: 14px;
-            height: 35px;
-            background: linear-gradient(180deg, #ffffff, #ffca28, #ff3d00, transparent);
-            border-radius: 50%;
-            filter: drop-shadow(0 0 10px #ff6d00);
-            animation: thrustPulse 0.06s linear infinite alternate;
+            bottom: -38px;
+            left: 36px;
+            width: 18px;
+            height: 42px;
+            /* Degradado de fuego real con núcleo blanco incandescente */
+            background: linear-gradient(180deg, #ffffff 0%, #fff176 25%, #ff9100 60%, #ff3d00 85%, transparent 100%);
+            border-radius: 50% 50% 20% 20%;
+            filter: drop-shadow(0 0 15px #ff6d00) blur(0.5px);
+            animation: thrustPulse 0.05s linear infinite alternate;
             display: none;
         }
 
         @keyframes thrustPulse {
-            0% { transform: scaleX(0.8) translateY(0); opacity: 0.9; }
-            100% { transform: scaleX(1.2) translateY(4px); opacity: 1; }
+            0% { transform: scaleX(0.85) scaleY(0.9); opacity: 0.85; }
+            100% { transform: scaleX(1.25) scaleY(1.15); opacity: 1; filter: drop-shadow(0 0 22px #ff3d00); }
         }
 
-        /* Efecto de Explosión real */
+        /* Efecto de Explosión de Partículas */
         .explosion-effect {
             position: absolute;
-            width: 90px;
-            height: 90px;
-            background: radial-gradient(circle, #ffffff 0%, #ffca28 30%, #ff3d00 70%, transparent 100%);
+            width: 110px;
+            height: 110px;
+            background: radial-gradient(circle, #ffffff 0%, #ffea00 25%, #ff3d00 60%, transparent 100%);
             border-radius: 50%;
             display: none;
-            animation: explodePulse 0.2s ease-out;
+            animation: explodePulse 0.25s ease-out;
+            z-index: 6;
         }
 
         @keyframes explodePulse {
-            0% { transform: scale(0.3); opacity: 1; }
-            100% { transform: scale(1.3); opacity: 0; }
+            0% { transform: scale(0.2); opacity: 1; filter: blur(0px); }
+            50% { filter: blur(2px); }
+            100% { transform: scale(1.4); opacity: 0; filter: blur(5px); }
         }
 
-        /* PANEL DE CONTROLES PREMIUM */
+        /* PANEL DE CONTROLES INFERIOR */
         .controls-panel {
             background-color: #0b0f19;
-            padding: 18px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -223,10 +242,10 @@
         .action-btn {
             width: 100%;
             max-width: 340px;
-            height: 58px;
+            height: 60px;
             border: none;
             border-radius: 14px;
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: 800;
             cursor: pointer;
             text-transform: uppercase;
@@ -279,6 +298,7 @@
                 <div class="wings"></div>
                 <div class="fuselage"></div>
                 <div class="cockpit"></div>
+                <div class="tail-fin"></div>
                 <div class="thruster"></div>
             </div>
             <div class="plasma-flame" id="flame_element"></div>
@@ -314,14 +334,13 @@
             multiplicador = parseFloat(multiplicador.toFixed(2));
             multiplierDisplay.innerText = multiplicador.toFixed(2) + "x";
 
-            // Vuelo en diagonal fluido adaptado al centro de gravedad del Jet
             let progreso = (multiplicador - 1) * 16; 
             let posX = 15 + progreso;
             let posY = 15 + (Math.pow(progreso, 1.08));
 
-            // Márgenes estrictos para que encaje perfecto en cualquier cel sin cortarse
-            if (posX < 78) rocketContainer.style.left = posX + "%";
-            if (posY < 68) rocketContainer.style.bottom = posY + "%";
+            // Control estricto de órbita adaptable
+            if (posX < 76) rocketContainer.style.left = posX + "%";
+            if (posY < 66) rocketContainer.style.bottom = posY + "%";
 
             if (multiplicador >= puntoCrashOculto) {
                 hacerCrash();
@@ -337,7 +356,6 @@
             multiplierDisplay.innerText = "1.00x";
             multiplierDisplay.classList.remove('crash');
             
-            // Mostrar componentes de la nave e iniciar fuego de plasma
             rocketContainer.style.display = "block";
             flameElement.style.display = "block";
             explosionElement.style.display = "none";
@@ -373,7 +391,6 @@
             estadoJuego = "crash";
             grid.style.animationPlayState = "paused";
             
-            // Ocultar nave y disparar animación de explosión de plasma
             flameElement.style.display = "none";
             document.querySelector('.jet-body').style.display = "none";
             explosionElement.style.display = "block";
